@@ -41,10 +41,22 @@ class _HomepageState extends State<Homepage> {
       items.insert(
         insertIndex,
         ListItem(
-          name: 'Del',
+          name: 'Delletje',
         ),
       );
     });
+  }
+
+  void _approachBottomSheet(context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext bc) {
+          return Container(
+            height: MediaQuery.of(context).size.height * .75,
+            child: Text('Edit'),
+          );
+        });
   }
 
   @override
@@ -64,7 +76,7 @@ class _HomepageState extends State<Homepage> {
             ));
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => addItem(),
+        onPressed: () => _approachBottomSheet(context),
         child: Icon(Icons.add),
       ),
     );
