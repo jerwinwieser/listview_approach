@@ -29,6 +29,8 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   final List<ListItem> items = List.from(listItems);
 
+  final TextEditingController nameController = TextEditingController();
+
   void removeItem(int index) {
     setState(() {
       final item = items.removeAt(index);
@@ -47,22 +49,47 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+  void saveItem() {
+    setState(() {
+      int insertIndex = 0;
+      items.insert(
+        insertIndex,
+        ListItem(
+          name: nameController.text,
+        ),
+      );
+    });
+  }
+
   void _approachBottomSheet(context) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         builder: (BuildContext bc) {
           return Container(
-            height: MediaQuery.of(context).size.height * .75,
-            child: Text('Edit'),
-          );
+              height: MediaQuery.of(context).size.height * .75,
+              child: Scaffold(
+                body: TextFormField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Name',
+                  ),
+                  onSaved: (String? value) {},
+                ),
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () => saveItem(),
+                  child: Icon(Icons.save),
+                ),
+              ));
         });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Approaches')),
+      appBar: AppBar(
+        title: const Text('Approaches'),
+      ),
       body: ListView.builder(
           itemCount: items.length,
           itemBuilder: (context, index) {
