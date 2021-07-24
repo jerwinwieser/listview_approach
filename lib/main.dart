@@ -10,27 +10,30 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final List<ListItem> _data = List.from(listItems);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'List Items',
-      home: Scaffold(
-          appBar: AppBar(title: const Text('Approaches')),
-          body: Approach(),
-          floatingActionButton: ApproachAdd()),
+      home: Homepage(),
     );
   }
 }
 
-class ApproachAdd extends StatefulWidget {
+class Homepage extends StatefulWidget {
+  const Homepage({Key? key}) : super(key: key);
+
   @override
-  _ApproachAddState createState() => _ApproachAddState();
+  _HomepageState createState() => _HomepageState();
 }
 
-class _ApproachAddState extends State<ApproachAdd> {
+class _HomepageState extends State<Homepage> {
   final List<ListItem> items = List.from(listItems);
+
+  void removeItem(int index) {
+    setState(() {
+      final item = items.removeAt(index);
+    });
+  }
 
   void addItem() {
     setState(() {
@@ -46,40 +49,24 @@ class _ApproachAddState extends State<ApproachAdd> {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () => addItem(),
-      child: Icon(Icons.add),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Approaches')),
+      body: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return Card(
+                child: ListTile(
+              title: Text(items[index].name),
+              trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () => removeItem(index),
+                  color: Colors.red),
+            ));
+          }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => addItem(),
+        child: Icon(Icons.add),
+      ),
     );
-  }
-}
-
-class Approach extends StatefulWidget {
-  @override
-  _ApproachState createState() => _ApproachState();
-}
-
-class _ApproachState extends State<Approach> {
-  final List<ListItem> items = List.from(listItems);
-
-  void removeItem(int index) {
-    setState(() {
-      final item = items.removeAt(index);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return Card(
-              child: ListTile(
-            title: Text(items[index].name),
-            trailing: IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () => removeItem(index),
-                color: Colors.red),
-          ));
-        });
   }
 }
