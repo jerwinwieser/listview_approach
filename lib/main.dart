@@ -17,13 +17,38 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'List Items',
       home: Scaffold(
-        appBar: AppBar(title: const Text('Approaches')),
-        body: Approach(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.add),
+          appBar: AppBar(title: const Text('Approaches')),
+          body: Approach(),
+          floatingActionButton: ApproachAdd()),
+    );
+  }
+}
+
+class ApproachAdd extends StatefulWidget {
+  @override
+  _ApproachAddState createState() => _ApproachAddState();
+}
+
+class _ApproachAddState extends State<ApproachAdd> {
+  final List<ListItem> items = List.from(listItems);
+
+  void addItem() {
+    setState(() {
+      int insertIndex = 0;
+      items.insert(
+        insertIndex,
+        ListItem(
+          name: 'Del',
         ),
-      ),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () => addItem(),
+      child: Icon(Icons.add),
     );
   }
 }
@@ -42,18 +67,6 @@ class _ApproachState extends State<Approach> {
     });
   }
 
-  void addItem() {
-    setState(() {
-      int insertIndex = 0;
-      items.insert(
-        insertIndex,
-        ListItem(
-          name: 'Del',
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -66,10 +79,6 @@ class _ApproachState extends State<Approach> {
                 icon: Icon(Icons.delete),
                 onPressed: () => removeItem(index),
                 color: Colors.red),
-            leading: IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => addItem(),
-                color: Colors.green),
           ));
         });
   }
