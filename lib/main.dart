@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'data/list_items.dart';
 import 'model/list_item.dart';
@@ -28,7 +30,6 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   final List<ListItem> items = List.from(listItems);
-
   final TextEditingController nameController = TextEditingController();
 
   void removeItem(int index) {
@@ -89,6 +90,8 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Approaches'),
+        leading: IconButton(
+            icon: Icon(Icons.print), onPressed: () {}, color: Colors.white),
       ),
       body: ListView.builder(
           itemCount: items.length,
